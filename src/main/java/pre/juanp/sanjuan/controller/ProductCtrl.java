@@ -29,9 +29,9 @@ public class ProductCtrl {
 		return ResponseEntity.ok(products);
 	}
 
-	@GetMapping("/bycode/{code}")
-	public ResponseEntity<Product> getProductByCode(@PathVariable("code") String code) throws Exception {
-		Optional<Product> product = Optional.ofNullable(serv.getProductByCode(code));
+	@GetMapping("/byid/{id}")
+	public ResponseEntity<Product> getProductByCode(@PathVariable("id") String id) throws Exception {
+		Optional<Product> product = Optional.ofNullable(serv.getProductById(id));
 
 		if (product.isEmpty()) {
 			throw new Exception("Resource not found.");

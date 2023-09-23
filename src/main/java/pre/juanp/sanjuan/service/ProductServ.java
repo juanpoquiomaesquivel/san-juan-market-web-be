@@ -18,8 +18,8 @@ public class ProductServ {
 		return repo.findAll();
 	}
 
-	public Product getProductByCode(String code) {
-		return repo.getReferenceById(code);
+	public Product getProductById(String id) {
+		return repo.getReferenceById(id);
 	}
 
 	public List<Product> getProductsByName(String name) {

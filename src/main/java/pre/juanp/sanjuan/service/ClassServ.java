@@ -16,4 +16,12 @@ public class ClassServ {
 	public List<pre.juanp.sanjuan.model.Class> getAllClasses() {
 		return repo.findAll();
 	}
+	
+	public List<pre.juanp.sanjuan.model.Class> getClassesByFamily(String familyId) {
+		return repo.getClassesByFamily(familyId);
+	}
+	
+	public List<pre.juanp.sanjuan.model.Class> getClassesByCategory(String classId) {
+		return repo.getClassesByCategory(classId);
+	}
 }

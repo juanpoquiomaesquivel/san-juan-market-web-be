@@ -9,26 +9,14 @@ SET NOCOUNT ON
 
 	SET @NewId = dbo.FnGenerateNewUniqueCategoryId();
 
-	IF @Description IS NULL
-		BEGIN
-			INSERT INTO
-				category (
-					id_category,
-					ca_name
-				)
-			VALUES (
-				@NewId,
-				@Name
-			);
+	INSERT INTO
+		category
+	VALUES (
+		@NewId,
+		@Name,
+		CASE
+			WHEN @Description IS NULL THEN 'There is no description for this category.'
+			ELSE @Description
 		END
-	ELSE
-		BEGIN
-			INSERT INTO
-				category
-			VALUES (
-				@NewId,
-				@Name,
-				@Description
-			);
-		END
+	);
 END;
