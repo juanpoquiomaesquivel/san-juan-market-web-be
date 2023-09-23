@@ -28,28 +28,28 @@ public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "art_code")
-	private String code;
+	@Column(name = "id_article")
+	private String id;
 
-	@Column(name = "art_name")
+	@Column(name = "a_name")
 	private String name;
 
-	@Column(name = "art_description")
+	@Column(name = "a_description")
 	private String description;
 
-	@Column(name = "art_price")
+	@Column(name = "a_price")
 	private BigDecimal price;
 
-	@Column(name = "art_stock")
+	@Column(name = "a_stock")
 	private Integer stock;
 
-	@Column(name = "art_img")
+	@Column(name = "a_img")
 	private String img;
 
 	@Column(name = "bar_code")
 	private String barCode;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_code")
+	@JoinColumn(name = "product_id")
 	private Product product;
 }

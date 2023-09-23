@@ -27,17 +27,17 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "pro_code")
-	private String code;
+	@Column(name = "id_product")
+	private String id;
 
-	@Column(name = "pro_name")
+	@Column(name = "p_name")
 	private String name;
 
-	@Column(name = "pro_description")
+	@Column(name = "p_description")
 	private String description;
 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_code")
+	@JoinColumn(name = "category_id")
 	private Category category;
 }

@@ -13,7 +13,7 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	@Query(value = "SELECT a FROM Article a WHERE a.name LIKE '%' + :name + '%'")
 	public List<Article> getArticlesByName(@Param("name") String name);
 	
-	@Query(value = "SELECT a FROM Article a JOIN Product p ON a.product = p.code AND p.category = :category")
+	@Query(value = "SELECT a FROM Article a JOIN Product p ON a.product = p.id AND p.category = :category")
 	public List<Article> getArticlesByCategory(@Param("category") String category);
 	
 	@Query(value = "SELECT a FROM Article a WHERE a.product = :product")

@@ -24,4 +24,8 @@ public class CategoryServ {
 	public List<Category> getCategoriesByName(String name) {
 		return repo.getCategoriesByName(name);
 	}
+	
+	public void insertCategory(String name, String description) {
+		repo.UpInsertCategory(name, description);
+	}
 }

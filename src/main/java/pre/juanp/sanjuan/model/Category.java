@@ -24,12 +24,12 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "cat_code")
-	private String code;
+	@Column(name = "id_category")
+	private String id;
 	
-	@Column(name = "cat_name")
+	@Column(name = "ca_name")
 	private String name;
 	
-	@Column(name = "cat_description")
+	@Column(name = "ca_description")
 	private String description;
 }
