@@ -1,12 +1,15 @@
 package pre.juanp.sanjuan.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pre.juanp.sanjuan.model.Family;
@@ -20,10 +23,49 @@ public class FamilyCtrl {
 	@Autowired
 	private FamilyServ serv;
 	
-	@GetMapping("/all")
-	public ResponseEntity<List<Family>> getAllFamilies() {
-		List<Family> families = serv.getAllFamilies();
+	@GetMapping("/get/all")
+	public ResponseEntity<List<Family>> findAllFamilies() throws Exception {
+		Optional<List<Family>> fams = Optional.ofNullable(serv.findAllFamilies());
 		
-		return ResponseEntity.ok(families);
+		if (fams.isEmpty()) {
+			throw new Exception("There is no families.");
+		}
+		
+		return ResponseEntity.ok(fams.get());
+	}
+	
+	@GetMapping("/get/byname")
+	public ResponseEntity<List<Family>> findFamiliesContainingName(@RequestParam("name") String name)
+			throws Exception {
+		Optional<List<Family>> fams = Optional.ofNullable(serv.findFamiliesContainingName(name));
+
+		if (fams.isEmpty()) {
+			throw new Exception("There is no family with a name alike.");
+		}
+
+		return ResponseEntity.ok(fams.get());
+	}
+
+	@GetMapping("/get/byid/{id}")
+	public ResponseEntity<Family> getFamilyById(@PathVariable("id") String id) throws Exception {
+		Optional<Family> family = Optional.ofNullable(serv.getFamilyById(id));
+
+		if (family.isEmpty()) {
+			throw new Exception("There is no product associated with the provided id.");
+		}
+
+		return ResponseEntity.ok(family.get());
+	}
+
+	@GetMapping("/get/bysegment/{segmentId}")
+	public ResponseEntity<List<Family>> getFamiliesBySegment(@PathVariable("segmentId") String segmentId)
+			throws Exception {
+		Optional<List<Family>> fams = Optional.ofNullable(serv.getFamiliesBySegment(segmentId));
+
+		if (fams.isEmpty()) {
+			throw new Exception("There is no family associated with the provided segment.");
+		}
+
+		return ResponseEntity.ok(fams.get());
 	}
 }

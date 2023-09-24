@@ -14,7 +14,15 @@ public class SegmentServ {
 	@Autowired
 	private SegmentRepo repo;
 
-	public List<Segment> getAllSegments() {
+	public List<Segment> findAllSegments() {
 		return repo.findAll();
+	}
+
+	public List<Segment> findSegmentsContainingName(String name) {
+		return repo.findSegmentsContainingName(name);
+	}
+	
+	public Segment getSegmentById(String id) {
+		return repo.getReferenceById(id);
 	}
 }

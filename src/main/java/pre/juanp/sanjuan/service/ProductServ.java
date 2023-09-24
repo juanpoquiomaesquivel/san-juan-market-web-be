@@ -14,19 +14,35 @@ public class ProductServ {
 	@Autowired
 	private ProductRepo repo;
 
-	public List<Product> getAllProducts() {
+	public List<Product> findAllProducts() {
 		return repo.findAll();
+	}
+
+	public List<Product> findProductsContainingName(String name) {
+		return repo.findProductsContainingName(name);
+	}
+
+	public List<Product> findProductsContainingDescription(String description) {
+		return repo.findProductsContainingDescription(description);
 	}
 
 	public Product getProductById(String id) {
 		return repo.getReferenceById(id);
 	}
 
-	public List<Product> getProductsByName(String name) {
-		return repo.getProductsByName(name);
+	public List<Product> getProductsByCategory(String categoryId) {
+		return repo.getProductsByCategory(categoryId);
+	}
+	
+	public void saveNewProduct(String name, String description, String categoryId) {
+		repo.UpInsertProduct(name, description, categoryId);
 	}
 
-	public List<Product> getProductsByCategory(String category) {
-		return repo.getProductsByCategory(category);
+	public void updateProductById(String id, String name, String description, String categoryId) {
+		repo.UpUpdateProduct(id, name, description, categoryId);
+	}
+
+	public void deleteProductById(String id) {
+		repo.UpDeleteProduct(id);
 	}
 }

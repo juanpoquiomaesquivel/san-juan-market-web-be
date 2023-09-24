@@ -12,8 +12,11 @@ import pre.juanp.sanjuan.model.Category;
 
 public interface CategoryRepo extends JpaRepository<Category, String> {
 
-	@Query(value = "SELECT ca FROM Category ca WHERE ca.name LIKE '%' + :name + '%'")
-	public List<Category> getCategoriesByName(@Param("name") String name);
+	@Query(value = "SELECT ca FROM Category ca WHERE ca.name LIKE %:name%")
+	public List<Category> findCategoriesContainingName(@Param("name") String name);
+
+	@Query(value = "SELECT ca FROM Category ca WHERE ca.description LIKE %:description%")
+	public List<Category> findCategoriesContainingDescription(@Param("description") String description);
 
 	@Procedure(name = "UpInsertCategory")
 	public void UpInsertCategory(@Param("name") String name, @Nullable @Param("description") String description);

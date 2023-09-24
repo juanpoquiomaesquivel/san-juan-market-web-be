@@ -27,9 +27,9 @@ public class CategoryCtrl {
 	@Autowired
 	private CategoryServ serv;
 
-	@GetMapping("/all")
-	public ResponseEntity<List<Category>> getAllCategories() throws Exception {
-		Optional<List<Category>> cats = Optional.ofNullable(serv.getAllCategories());
+	@GetMapping("/get/all")
+	public ResponseEntity<List<Category>> findAllCategories() throws Exception {
+		Optional<List<Category>> cats = Optional.ofNullable(serv.findAllCategories());
 
 		if (cats.isEmpty()) {
 			throw new Exception("There is no categories.");
@@ -38,7 +38,31 @@ public class CategoryCtrl {
 		return ResponseEntity.ok(cats.get());
 	}
 
-	@GetMapping("/byid/{id}")
+	@GetMapping("/get/byname")
+	public ResponseEntity<List<Category>> findCategoriesContainingName(@RequestParam("name") String name)
+			throws Exception {
+		Optional<List<Category>> cats = Optional.ofNullable(serv.findCategoriesContainingName(name));
+
+		if (cats.isEmpty()) {
+			throw new Exception("There is no category with a name alike.");
+		}
+
+		return ResponseEntity.ok(cats.get());
+	}
+
+	@GetMapping("/get/bydescription")
+	public ResponseEntity<List<Category>> findCategoriesContainingDescription(
+			@RequestParam("description") String description) throws Exception {
+		Optional<List<Category>> cats = Optional.ofNullable(serv.findCategoriesContainingDescription(description));
+
+		if (cats.isEmpty()) {
+			throw new Exception("There is no category with a description alike.");
+		}
+
+		return ResponseEntity.ok(cats.get());
+	}
+
+	@GetMapping("/get/byid/{id}")
 	public ResponseEntity<Category> getCategoryById(@PathVariable("id") String id) throws Exception {
 		Optional<Category> cats = Optional.ofNullable(serv.getCategoryById(id));
 
@@ -49,49 +73,38 @@ public class CategoryCtrl {
 		return ResponseEntity.ok(cats.get());
 	}
 
-	@GetMapping("/byname/{name}")
-	public ResponseEntity<List<Category>> getCategoriesByName(@PathVariable("name") String name) throws Exception {
-		Optional<List<Category>> cats = Optional.ofNullable(serv.getCategoriesByName(name));
-
-		if (cats.isEmpty()) {
-			throw new Exception("There is no category alike.");
-		}
-
-		return ResponseEntity.ok(cats.get());
-	}
-
-	@PostMapping("/insert")
-	public ResponseEntity<String> insertCategory(@RequestParam("name") String name,
+	@PostMapping("/post/newcategory")
+	public ResponseEntity<String> saveNewCategory(@RequestParam("name") String name,
 			@RequestParam(name = "description", required = false) String description) {
 		try {
-			serv.insertCategory(name, description);
+			serv.saveNewCategory(name, description);
 
-			return ResponseEntity.ok("Insert statement executed successfully.");
+			return ResponseEntity.ok("[New Category] Insert statement executed successfully.");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error executing stored procedure: " + e.getMessage());
 		}
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<String> updateCategory(@RequestParam("id") String id, @RequestParam("name") String name,
+	@PutMapping("/put/byid")
+	public ResponseEntity<String> updateCategoryById(@RequestParam("id") String id, @RequestParam("name") String name,
 			@RequestParam(name = "description", required = false) String description) {
 		try {
-			serv.updateCategory(id, name, description);
+			serv.updateCategoryById(id, name, description);
 
-			return ResponseEntity.ok("Update statement executed successfully.");
+			return ResponseEntity.ok("[Category Changes] Update statement executed successfully.");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error executing stored procedure: " + e.getMessage());
 		}
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable("id") String id) {
+	@DeleteMapping("/delete/byid/{id}")
+	public ResponseEntity<String> deleteCategoryById(@PathVariable("id") String id) {
 		try {
-			serv.deleteCategory(id);
+			serv.deleteCategoryById(id);
 
-			return ResponseEntity.ok("Delete statement executed successfully.");
+			return ResponseEntity.ok("[Drop Category] Delete statement executed successfully.");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error executing stored procedure: " + e.getMessage());

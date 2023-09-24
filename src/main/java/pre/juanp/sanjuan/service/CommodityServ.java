@@ -14,15 +14,31 @@ public class CommodityServ {
 	@Autowired
 	private CommodityRepo repo;
 
-	public List<Commodity> getAllCommodities() {
+	public List<Commodity> findAllCommodities() {
 		return repo.findAll();
 	}
 
-	public List<Commodity> getCommoditiesByName(String name) {
-		return repo.getCommoditiesByName(name);
+	public List<Commodity> findCommoditiesContainingName(String name) {
+		return repo.findCommoditiesContainingName(name);
 	}
 
-	public List<Commodity> getCommoditiesByClassId(String classId) {
-		return repo.getCommoditiesByClassId(classId);
+	public Commodity getCommodityById(String id) {
+		return repo.getReferenceById(id);
+	}
+	
+	public List<Commodity> getCommoditiesByClass(String classId) {
+		return repo.getCommoditiesByClass(classId);
+	}
+	
+	public List<Commodity> getCommodityTagsForProduct(String productId) {
+		return repo.getCommodityTagsForProduct(productId);
+	}
+	
+	public void addCommodityTagForProduct(String id, String productId) {
+		repo.UpAddCommodityTagForProduct(id, productId);
+	}
+	
+	public void removeCommodityTagForProduct(String id) {
+		repo.UpRemoveCommodityTagForProduct(id);
 	}
 }

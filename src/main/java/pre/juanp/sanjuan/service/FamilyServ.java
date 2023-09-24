@@ -14,7 +14,19 @@ public class FamilyServ {
 	@Autowired
 	private FamilyRepo repo;
 
-	public List<Family> getAllFamilies() {
+	public List<Family> findAllFamilies() {
 		return repo.findAll();
+	}
+
+	public List<Family> findFamiliesContainingName(String name) {
+		return repo.findFamiliesContainingName(name);
+	}
+
+	public Family getFamilyById(String id) {
+		return repo.getReferenceById(id);
+	}
+
+	public List<Family> getFamiliesBySegment(String segmentId) {
+		return repo.getFamiliesBySegment(segmentId);
 	}
 }

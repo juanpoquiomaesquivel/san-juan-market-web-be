@@ -14,27 +14,31 @@ public class CategoryServ {
 	@Autowired
 	private CategoryRepo repo;
 
-	public List<Category> getAllCategories() {
+	public List<Category> findAllCategories() {
 		return repo.findAll();
+	}
+
+	public List<Category> findCategoriesContainingName(String name) {
+		return repo.findCategoriesContainingName(name);
+	}
+
+	public List<Category> findCategoriesContainingDescription(String description) {
+		return repo.findCategoriesContainingDescription(description);
 	}
 
 	public Category getCategoryById(String id) {
 		return repo.getReferenceById(id);
 	}
 
-	public List<Category> getCategoriesByName(String name) {
-		return repo.getCategoriesByName(name);
-	}
-
-	public void insertCategory(String name, String description) {
+	public void saveNewCategory(String name, String description) {
 		repo.UpInsertCategory(name, description);
 	}
 
-	public void updateCategory(String id, String name, String description) {
+	public void updateCategoryById(String id, String name, String description) {
 		repo.UpUpdateCategory(id, name, description);
 	}
 
-	public void deleteCategory(String id) {
+	public void deleteCategoryById(String id) {
 		repo.UpDeleteCategory(id);
 	}
 }
