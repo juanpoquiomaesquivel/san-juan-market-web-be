@@ -26,23 +26,23 @@ public class ProductServ {
 		return repo.findProductsContainingDescription(description);
 	}
 
-	public Product getProductById(String id) {
-		return repo.getReferenceById(id);
+	public Product getProductByCode(String code) {
+		return repo.getProductByCode(code);
 	}
 
-	public List<Product> getProductsByCategory(String categoryId) {
+	public List<Product> getProductsByCategory(Integer categoryId) {
 		return repo.getProductsByCategory(categoryId);
 	}
 	
-	public void saveNewProduct(String name, String description, String categoryId) {
-		repo.UpInsertProduct(name, description, categoryId);
+	public void addProduct(String name, String description, Integer categoryId) {
+		repo.UpAddProduct(name, description, categoryId);
 	}
 
-	public void updateProductById(String id, String name, String description, String categoryId) {
+	public void updateProductById(Integer id, String name, String description, Integer categoryId) {
 		repo.UpUpdateProduct(id, name, description, categoryId);
 	}
 
-	public void deleteProductById(String id) {
-		repo.UpDeleteProduct(id);
+	public void removeProductById(Integer id) {
+		repo.UpRemoveProduct(id);
 	}
 }

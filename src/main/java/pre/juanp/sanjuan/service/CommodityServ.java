@@ -22,23 +22,23 @@ public class CommodityServ {
 		return repo.findCommoditiesContainingName(name);
 	}
 
-	public Commodity getCommodityById(String id) {
-		return repo.getReferenceById(id);
+	public Commodity getCommodityByCode(String code) {
+		return repo.getCommodityByCode(code);
 	}
 	
-	public List<Commodity> getCommoditiesByClass(String classId) {
+	public List<Commodity> getCommoditiesByClass(Integer classId) {
 		return repo.getCommoditiesByClass(classId);
 	}
 	
-	public List<Commodity> getCommodityTagsForProduct(String productId) {
+	public List<Commodity> getCommodityTagsForProduct(Integer productId) {
 		return repo.getCommodityTagsForProduct(productId);
 	}
 	
-	public void addCommodityTagForProduct(String id, String productId) {
+	public void addCommodityTagForProduct(Integer id, Integer productId) {
 		repo.UpAddCommodityTagForProduct(id, productId);
 	}
 	
-	public void removeCommodityTagForProduct(String id) {
+	public void removeCommodityTagForProduct(Integer id) {
 		repo.UpRemoveCommodityTagForProduct(id);
 	}
 }

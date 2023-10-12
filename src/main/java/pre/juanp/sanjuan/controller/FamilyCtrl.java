@@ -35,7 +35,7 @@ public class FamilyCtrl {
 	}
 	
 	@GetMapping("/get/byname")
-	public ResponseEntity<List<Family>> findFamiliesContainingName(@RequestParam("name") String name)
+	public ResponseEntity<List<Family>> findFamiliesContainingName(@RequestParam("Name") String name)
 			throws Exception {
 		Optional<List<Family>> fams = Optional.ofNullable(serv.findFamiliesContainingName(name));
 
@@ -46,19 +46,19 @@ public class FamilyCtrl {
 		return ResponseEntity.ok(fams.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<Family> getFamilyById(@PathVariable("id") String id) throws Exception {
-		Optional<Family> family = Optional.ofNullable(serv.getFamilyById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<Family> getFamilyByCode(@PathVariable("Code") String code) throws Exception {
+		Optional<Family> family = Optional.ofNullable(serv.getFamilyByCode(code));
 
 		if (family.isEmpty()) {
-			throw new Exception("There is no product associated with the provided id.");
+			throw new Exception("There is no product associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(family.get());
 	}
 
-	@GetMapping("/get/bysegment/{segmentId}")
-	public ResponseEntity<List<Family>> getFamiliesBySegment(@PathVariable("segmentId") String segmentId)
+	@GetMapping("/get/bysegment/{SegmentId}")
+	public ResponseEntity<List<Family>> getFamiliesBySegment(@PathVariable("SegmentId") Integer segmentId)
 			throws Exception {
 		Optional<List<Family>> fams = Optional.ofNullable(serv.getFamiliesBySegment(segmentId));
 

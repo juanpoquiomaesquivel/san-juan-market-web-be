@@ -19,18 +19,18 @@ public class ArticleServ {
 	}
 
 	public Article getArticleByCode(String code) {
-		return repo.getReferenceById(code);
+		return repo.getArticleByCode(code);
 	}
 
 	public List<Article> getArticlesByName(String name) {
 		return repo.getArticlesByName(name);
 	}
 
-	public List<Article> getArticlesByCategory(String category) {
-		return repo.getArticlesByCategory(category);
+	public List<Article> getArticlesByCategory(Integer categoryId) {
+		return repo.getArticlesByCategory(categoryId);
 	}
 
-	public List<Article> getArticlesByProduct(String product) {
-		return repo.getArticlesByProduct(product);
+	public List<Article> getArticlesByProduct(Integer productId) {
+		return repo.getArticlesByProduct(productId);
 	}
 }

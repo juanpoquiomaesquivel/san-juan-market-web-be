@@ -62,19 +62,19 @@ public class ProductCtrl {
 		return ResponseEntity.ok(pros.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable("id") String id) throws Exception {
-		Optional<Product> product = Optional.ofNullable(serv.getProductById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<Product> getProductByCode(@PathVariable("Code") String code) throws Exception {
+		Optional<Product> product = Optional.ofNullable(serv.getProductByCode(code));
 
 		if (product.isEmpty()) {
-			throw new Exception("There is no product associated with the provided id.");
+			throw new Exception("There is no product associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(product.get());
 	}
 
-	@GetMapping("/get/bycategory/{categoryId}")
-	public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable("categoryId") String categoryId)
+	@GetMapping("/get/bycategory/{CategoryId}")
+	public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable("CategoryId") Integer categoryId)
 			throws Exception {
 		Optional<List<Product>> products = Optional.ofNullable(serv.getProductsByCategory(categoryId));
 
@@ -86,11 +86,11 @@ public class ProductCtrl {
 	}
 
 	@PostMapping("/post/newproduct")
-	public ResponseEntity<String> saveNewProduct(@RequestParam("name") String name,
-			@RequestParam(name = "description", required = false) String description,
-			@RequestParam(name = "categoryId", required = false) String categoryId) {
+	public ResponseEntity<String> addProduct(@RequestParam("Name") String name,
+			@RequestParam(name = "Description", required = false) String description,
+			@RequestParam(name = "CategoryId", required = false) Integer categoryId) {
 		try {
-			serv.saveNewProduct(name, description, categoryId);
+			serv.addProduct(name, description, categoryId);
 
 			return ResponseEntity.ok("[New Product] Insert statement executed successfully.");
 		} catch (Exception e) {
@@ -100,9 +100,9 @@ public class ProductCtrl {
 	}
 
 	@PutMapping("/put/byid")
-	public ResponseEntity<String> updateProductById(@RequestParam("id") String id, @RequestParam("name") String name,
-			@RequestParam(name = "description", required = false) String description,
-			@RequestParam(name = "categoryId", required = false) String categoryId) {
+	public ResponseEntity<String> updateProductById(@RequestParam("Id") Integer id, @RequestParam("Name") String name,
+			@RequestParam(name = "Description", required = false) String description,
+			@RequestParam(name = "CategoryId", required = false) Integer categoryId) {
 		try {
 			serv.updateProductById(id, name, description, categoryId);
 
@@ -114,9 +114,9 @@ public class ProductCtrl {
 	}
 
 	@DeleteMapping("/delete/byid/{id}")
-	public ResponseEntity<String> deleteProductById(@PathVariable("id") String id) {
+	public ResponseEntity<String> removeProductById(@PathVariable("id") Integer id) {
 		try {
-			serv.deleteProductById(id);
+			serv.removeProductById(id);
 
 			return ResponseEntity.ok("[Drop Product] Delete statement executed successfully.");
 		} catch (Exception e) {

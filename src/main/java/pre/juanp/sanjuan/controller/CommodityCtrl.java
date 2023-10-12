@@ -37,7 +37,7 @@ public class CommodityCtrl {
 	}
 
 	@GetMapping("/get/byname")
-	public ResponseEntity<List<Commodity>> findCommoditiesContainingName(@RequestParam("name") String name)
+	public ResponseEntity<List<Commodity>> findCommoditiesContainingName(@RequestParam("Name") String name)
 			throws Exception {
 		Optional<List<Commodity>> coms = Optional.ofNullable(serv.findCommoditiesContainingName(name));
 
@@ -48,19 +48,19 @@ public class CommodityCtrl {
 		return ResponseEntity.ok(coms.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<Commodity> getCommodityById(@PathVariable("id") String id) throws Exception {
-		Optional<Commodity> commodity = Optional.ofNullable(serv.getCommodityById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<Commodity> getCommodityByCode(@PathVariable("Code") String code) throws Exception {
+		Optional<Commodity> commodity = Optional.ofNullable(serv.getCommodityByCode(code));
 
 		if (commodity.isEmpty()) {
-			throw new Exception("There is no commodity associated with the provided id.");
+			throw new Exception("There is no commodity associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(commodity.get());
 	}
 
-	@GetMapping("/get/byclass/{classId}")
-	public ResponseEntity<List<Commodity>> getCommoditiesByClass(@PathVariable("classId") String classId)
+	@GetMapping("/get/byclass/{ClassId}")
+	public ResponseEntity<List<Commodity>> getCommoditiesByClass(@PathVariable("ClassId") Integer classId)
 			throws Exception {
 		Optional<List<Commodity>> coms = Optional.ofNullable(serv.getCommoditiesByClass(classId));
 
@@ -71,8 +71,8 @@ public class CommodityCtrl {
 		return ResponseEntity.ok(coms.get());
 	}
 
-	@GetMapping("/get/forproduct/{productId}")
-	public ResponseEntity<List<Commodity>> getCommodityTagsForProduct(@PathVariable("productId") String productId)
+	@GetMapping("/get/forproduct/{ProductId}")
+	public ResponseEntity<List<Commodity>> getCommodityTagsForProduct(@PathVariable("ProductId") Integer productId)
 			throws Exception {
 		Optional<List<Commodity>> coms = Optional.ofNullable(serv.getCommodityTagsForProduct(productId));
 
@@ -84,8 +84,8 @@ public class CommodityCtrl {
 	}
 
 	@PutMapping("/put/commoditytag/add")
-	public ResponseEntity<String> addCommodityTagForProduct(@RequestParam("id") String id,
-			@RequestParam("productId") String productId) {
+	public ResponseEntity<String> addCommodityTagForProduct(@RequestParam("Id") Integer id,
+			@RequestParam("ProductId") Integer productId) {
 		try {
 			serv.addCommodityTagForProduct(id, productId);
 
@@ -97,7 +97,7 @@ public class CommodityCtrl {
 	}
 
 	@PutMapping("/put/commoditytag/remove")
-	public ResponseEntity<String> removeCommodityTagForProduct(@RequestParam("id") String id) {
+	public ResponseEntity<String> removeCommodityTagForProduct(@RequestParam("Id") Integer id) {
 		try {
 			serv.removeCommodityTagForProduct(id);
 

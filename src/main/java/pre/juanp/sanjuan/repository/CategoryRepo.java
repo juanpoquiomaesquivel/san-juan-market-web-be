@@ -10,21 +10,24 @@ import org.springframework.lang.Nullable;
 
 import pre.juanp.sanjuan.model.Category;
 
-public interface CategoryRepo extends JpaRepository<Category, String> {
+public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
 	@Query(value = "SELECT ca FROM Category ca WHERE ca.name LIKE %:name%")
 	public List<Category> findCategoriesContainingName(@Param("name") String name);
 
-	@Query(value = "SELECT ca FROM Category ca WHERE ca.description LIKE %:description%")
-	public List<Category> findCategoriesContainingDescription(@Param("description") String description);
+	@Query(value = "SELECT ca FROM Category ca WHERE ca.description LIKE %:Description%")
+	public List<Category> findCategoriesContainingDescription(@Param("Description") String description);
 
-	@Procedure(name = "UpInsertCategory")
-	public void UpInsertCategory(@Param("name") String name, @Nullable @Param("description") String description);
+	@Query(value = "SELECT ca FROM Category ca WHERE ca.code = :Code")
+	public Category getCategoryByCode(@Param("Code") String code);
+
+	@Procedure(name = "UpAddCategory")
+	public void UpAddCategory(@Param("Name") String name, @Nullable @Param("Description") String description);
 
 	@Procedure(name = "UpUpdateCategory")
-	public void UpUpdateCategory(@Param("id") String id, @Param("name") String name,
-			@Nullable @Param("description") String description);
+	public void UpUpdateCategory(@Param("Id") Integer id, @Param("Name") String name,
+			@Nullable @Param("Description") String description);
 
-	@Procedure(name = "UpDeleteCategory")
-	public void UpDeleteCategory(@Param("id") String id);
+	@Procedure(name = "UpRemoveCategory")
+	public void UpRemoveCategory(@Param("Id") Integer id);
 }

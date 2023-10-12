@@ -21,23 +21,23 @@ public class ClassServ {
 		return repo.findClassesContainingName(name);
 	}
 	
-	public pre.juanp.sanjuan.model.Class getClassById(String id) {
-		return repo.getReferenceById(id);
+	public pre.juanp.sanjuan.model.Class getClassByCode(String code) {
+		return repo.getClassByCode(code);
 	}
 	
-	public List<pre.juanp.sanjuan.model.Class> getClassesByFamily(String familyId) {
+	public List<pre.juanp.sanjuan.model.Class> getClassesByFamily(Integer familyId) {
 		return repo.getClassesByFamily(familyId);
 	}
 	
-	public List<pre.juanp.sanjuan.model.Class> getClassTagsForCategory(String categoryId) {
+	public List<pre.juanp.sanjuan.model.Class> getClassTagsForCategory(Integer categoryId) {
 		return repo.getClassTagsForCategory(categoryId);
 	}
 	
-	public void addClassTagForCategory(String id, String categoryId) {
+	public void addClassTagForCategory(Integer id, Integer categoryId) {
 		repo.UpAddClassTagForCategory(id, categoryId);
 	}
 	
-	public void removeClassTagForCategory(String id) {
+	public void removeClassTagForCategory(Integer id) {
 		repo.UpRemoveClassTagForCategory(id);
 	}
 }

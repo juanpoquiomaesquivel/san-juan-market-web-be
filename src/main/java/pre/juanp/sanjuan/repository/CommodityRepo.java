@@ -9,20 +9,23 @@ import org.springframework.data.repository.query.Param;
 
 import pre.juanp.sanjuan.model.Commodity;
 
-public interface CommodityRepo extends JpaRepository<Commodity, String> {
+public interface CommodityRepo extends JpaRepository<Commodity, Integer> {
 
 	@Query(value = "SELECT co FROM Commodity co WHERE co.name LIKE %:name%")
 	public List<Commodity> findCommoditiesContainingName(@Param("name") String name);
 
-	@Query(value = "SELECT co FROM Commodity co WHERE co.nclass.id = :classId")
-	public List<Commodity> getCommoditiesByClass(@Param("classId") String classId);
+	@Query(value = "SELECT co FROM Commodity co WHERE co.code = :Code")
+	public Commodity getCommodityByCode(@Param("Code") String code);
 
-	@Query(value = "SELECT co FROM Commodity co WHERE co.product.id = :productId")
-	public List<Commodity> getCommodityTagsForProduct(@Param("productId") String productId);
+	@Query(value = "SELECT co FROM Commodity co WHERE co.nclass.id = :ClassId")
+	public List<Commodity> getCommoditiesByClass(@Param("ClassId") Integer classId);
+
+	@Query(value = "SELECT co FROM Commodity co WHERE co.product.id = :ProductId")
+	public List<Commodity> getCommodityTagsForProduct(@Param("ProductId") Integer productId);
 	
 	@Procedure(name = "UpAddCommodityTagForProduct")
-	public void UpAddCommodityTagForProduct(@Param("id") String id, @Param("productId") String productId);
+	public void UpAddCommodityTagForProduct(@Param("Id") Integer id, @Param("ProductId") Integer productId);
 	
 	@Procedure(name = "UpRemoveCommodityTagForProduct")
-	public void UpRemoveCommodityTagForProduct(@Param("id") String id);
+	public void UpRemoveCommodityTagForProduct(@Param("Id") Integer id);
 }

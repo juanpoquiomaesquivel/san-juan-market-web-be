@@ -27,17 +27,20 @@ public class Class implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_class")
-	private String id;
+	@Column(name = "id")
+	private Integer id;
 
-	@Column(name = "c_name")
+	@Column(name = "code")
+	private String code;
+
+	@Column(name = "name")
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "family_id")
+	@JoinColumn(name = "familyid", referencedColumnName = "id")
 	private Family family;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "categoryid", referencedColumnName = "id")
 	private Category category;
 }

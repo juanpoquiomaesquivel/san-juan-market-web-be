@@ -24,9 +24,12 @@ public class Segment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_segment")
-	private String id;
+	@Column(name = "id")
+	private Integer id;
+
+	@Column(name = "code")
+	private String code;
 	
-	@Column(name = "s_name")
+	@Column(name = "name")
 	private String name;
 }

@@ -29,8 +29,8 @@ public class ArticleCtrl {
 		return ResponseEntity.ok(articles);
 	}
 
-	@GetMapping("/bycode/{code}")
-	public ResponseEntity<Article> getArticleByCode(@PathVariable("code") String code) throws Exception {
+	@GetMapping("/bycode/{Code}")
+	public ResponseEntity<Article> getArticleByCode(@PathVariable("Code") String code) throws Exception {
 		Optional<Article> article = Optional.ofNullable(serv.getArticleByCode(code));
 
 		if (article.isEmpty()) {
@@ -40,8 +40,8 @@ public class ArticleCtrl {
 		return ResponseEntity.ok(article.get());
 	}
 
-	@GetMapping("/byname/{name}")
-	public ResponseEntity<List<Article>> getArticlesByName(@PathVariable("name") String name) throws Exception {
+	@GetMapping("/byname/{Name}")
+	public ResponseEntity<List<Article>> getArticlesByName(@PathVariable("Name") String name) throws Exception {
 		Optional<List<Article>> articles = Optional.ofNullable(serv.getArticlesByName(name));
 
 		if (articles.isEmpty()) {
@@ -51,10 +51,10 @@ public class ArticleCtrl {
 		return ResponseEntity.ok(articles.get());
 	}
 
-	@GetMapping("/bycategory/{category}")
-	public ResponseEntity<List<Article>> getArticlesByCategory(@PathVariable("category") String category)
+	@GetMapping("/bycategory/{CategoryId}")
+	public ResponseEntity<List<Article>> getArticlesByCategory(@PathVariable("CategoryId") Integer categoryId)
 			throws Exception {
-		Optional<List<Article>> articles = Optional.ofNullable(serv.getArticlesByCategory(category));
+		Optional<List<Article>> articles = Optional.ofNullable(serv.getArticlesByCategory(categoryId));
 
 		if (articles.isEmpty()) {
 			throw new Exception("Resource not found.");
@@ -63,10 +63,10 @@ public class ArticleCtrl {
 		return ResponseEntity.ok(articles.get());
 	}
 
-	@GetMapping("/byproduct/{product}")
-	public ResponseEntity<List<Article>> getArticlesByProduct(@PathVariable("product") String product)
+	@GetMapping("/byproduct/{ProductId}")
+	public ResponseEntity<List<Article>> getArticlesByProduct(@PathVariable("ProductId") Integer productId)
 			throws Exception {
-		Optional<List<Article>> articles = Optional.ofNullable(serv.getArticlesByProduct(product));
+		Optional<List<Article>> articles = Optional.ofNullable(serv.getArticlesByProduct(productId));
 
 		if (articles.isEmpty()) {
 			throw new Exception("Resource not found.");

@@ -37,7 +37,7 @@ public class ClassCtrl {
 
 	@GetMapping("/get/byname")
 	public ResponseEntity<List<pre.juanp.sanjuan.model.Class>> findClassesContainingName(
-			@RequestParam("name") String name) throws Exception {
+			@RequestParam("Name") String name) throws Exception {
 		Optional<List<pre.juanp.sanjuan.model.Class>> clasz = Optional.ofNullable(serv.findClassesContainingName(name));
 
 		if (clasz.isEmpty()) {
@@ -47,20 +47,20 @@ public class ClassCtrl {
 		return ResponseEntity.ok(clasz.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<pre.juanp.sanjuan.model.Class> getClassById(@PathVariable("id") String id) throws Exception {
-		Optional<pre.juanp.sanjuan.model.Class> nclass = Optional.ofNullable(serv.getClassById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<pre.juanp.sanjuan.model.Class> getClassByCode(@PathVariable("Code") String code) throws Exception {
+		Optional<pre.juanp.sanjuan.model.Class> nclass = Optional.ofNullable(serv.getClassByCode(code));
 
 		if (nclass.isEmpty()) {
-			throw new Exception("There is no class associated with the provided id.");
+			throw new Exception("There is no class associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(nclass.get());
 	}
 
-	@GetMapping("/get/byfamily/{familyId}")
+	@GetMapping("/get/byfamily/{FamilyId}")
 	public ResponseEntity<List<pre.juanp.sanjuan.model.Class>> getClassesByFamily(
-			@PathVariable("familyId") String familyId) throws Exception {
+			@PathVariable("FamilyId") Integer familyId) throws Exception {
 		Optional<List<pre.juanp.sanjuan.model.Class>> clasz = Optional.ofNullable(serv.getClassesByFamily(familyId));
 
 		if (clasz.isEmpty()) {
@@ -70,9 +70,9 @@ public class ClassCtrl {
 		return ResponseEntity.ok(clasz.get());
 	}
 
-	@GetMapping("/get/forcategory/{categoryId}")
+	@GetMapping("/get/forcategory/{CategoryId}")
 	public ResponseEntity<List<pre.juanp.sanjuan.model.Class>> getClassTagsForCategory(
-			@PathVariable("categoryId") String categoryId) throws Exception {
+			@PathVariable("CategoryId") Integer categoryId) throws Exception {
 		Optional<List<pre.juanp.sanjuan.model.Class>> clasz = Optional
 				.ofNullable(serv.getClassTagsForCategory(categoryId));
 
@@ -84,8 +84,8 @@ public class ClassCtrl {
 	}
 
 	@PutMapping("/put/classtag/add")
-	public ResponseEntity<String> addClassTagForCategory(@RequestParam("id") String id,
-			@RequestParam("categoryId") String categoryId) {
+	public ResponseEntity<String> addClassTagForCategory(@RequestParam("Id") Integer id,
+			@RequestParam("CategoryId") Integer categoryId) {
 		try {
 			serv.addClassTagForCategory(id, categoryId);
 
@@ -97,7 +97,7 @@ public class ClassCtrl {
 	}
 
 	@PutMapping("/put/classtag/remove")
-	public ResponseEntity<String> removeClassTagForCategory(@RequestParam("id") String id) {
+	public ResponseEntity<String> removeClassTagForCategory(@RequestParam("Id") Integer id) {
 		try {
 			serv.removeClassTagForCategory(id);
 

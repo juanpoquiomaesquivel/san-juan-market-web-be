@@ -22,7 +22,7 @@ public class SegmentServ {
 		return repo.findSegmentsContainingName(name);
 	}
 	
-	public Segment getSegmentById(String id) {
-		return repo.getReferenceById(id);
+	public Segment getSegmentByCode(String code) {
+		return repo.getSegmentByCode(code);
 	}
 }

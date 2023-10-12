@@ -27,17 +27,20 @@ public class Commodity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_commodity")
-	private String id;
+	@Column(name = "id")
+	private Integer id;
+	
+	@Column(name = "code")
+	private String code;
 
-	@Column(name = "co_name")
+	@Column(name = "name")
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "class_id")
+	@JoinColumn(name = "classid", referencedColumnName = "id")
 	private pre.juanp.sanjuan.model.Class nclass;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "productid", referencedColumnName = "id")
 	private Product product;
 }

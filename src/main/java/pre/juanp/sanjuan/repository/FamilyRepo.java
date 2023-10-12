@@ -8,11 +8,14 @@ import org.springframework.data.repository.query.Param;
 
 import pre.juanp.sanjuan.model.Family;
 
-public interface FamilyRepo extends JpaRepository<Family, String> {
+public interface FamilyRepo extends JpaRepository<Family, Integer> {
 
-	@Query(value = "SELECT f FROM Family f WHERE f.name LIKE %:name%")
-	public List<Family> findFamiliesContainingName(@Param("name") String name);
+	@Query(value = "SELECT f FROM Family f WHERE f.name LIKE %:Name%")
+	public List<Family> findFamiliesContainingName(@Param("Name") String name);
+	
+	@Query(value = "SELECT f FROM Family f WHERE f.code = :Code")
+	public Family getFamilyByCode(@Param("Code") String code);
 
-	@Query(value = "SELECT f FROM Family f WHERE f.segment.id = :segmentId")
-	public List<Family> getFamiliesBySegment(@Param("segmentId") String segmentId);
+	@Query(value = "SELECT f FROM Family f WHERE f.segment.id = :SegmentId")
+	public List<Family> getFamiliesBySegment(@Param("SegmentId") Integer segmentId);
 }

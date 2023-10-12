@@ -27,13 +27,16 @@ public class Family implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_family")
-	private String id;
+	@Column(name = "id")
+	private Integer id;
 	
-	@Column(name = "f_name")
+	@Column(name = "code")
+	private String code;
+	
+	@Column(name = "name")
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "segment_id")
+	@JoinColumn(name = "segmentid", referencedColumnName = "id")
 	private Segment segment;
 }

@@ -35,7 +35,7 @@ public class SegmentCtrl {
 	}
 
 	@GetMapping("/get/byname")
-	public ResponseEntity<List<Segment>> findSegmentsContainingName(@RequestParam("name") String name)
+	public ResponseEntity<List<Segment>> findSegmentsContainingName(@RequestParam("Name") String name)
 			throws Exception {
 		Optional<List<Segment>> segs = Optional.ofNullable(serv.findSegmentsContainingName(name));
 
@@ -46,12 +46,13 @@ public class SegmentCtrl {
 		return ResponseEntity.ok(segs.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<Segment> getSegmentById(@PathVariable("id") String id) throws Exception {
-		Optional<Segment> segment = Optional.ofNullable(serv.getSegmentById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<Segment> getSegmentByCode(@PathVariable("Code") String code)
+			throws Exception {
+		Optional<Segment> segment = Optional.ofNullable(serv.getSegmentByCode(code));
 
 		if (segment.isEmpty()) {
-			throw new Exception("There is no segment associated with the provided id.");
+			throw new Exception("There is no segment associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(segment.get());

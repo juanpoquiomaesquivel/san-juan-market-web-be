@@ -27,17 +27,19 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_product")
-	private String id;
+	@Column(name = "id")
+	private Integer id;
 
-	@Column(name = "p_name")
+	@Column(name = "code")
+	private String code;
+
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "p_description")
+	@Column(name = "description")
 	private String description;
-
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "categoryid", referencedColumnName = "id")
 	private Category category;
 }

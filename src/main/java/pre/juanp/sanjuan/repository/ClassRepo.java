@@ -7,20 +7,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-public interface ClassRepo extends JpaRepository<pre.juanp.sanjuan.model.Class, String> {
+public interface ClassRepo extends JpaRepository<pre.juanp.sanjuan.model.Class, Integer> {
 
-	@Query(value = "SELECT c FROM Class c WHERE c.name LIKE %:name%")
-	public List<pre.juanp.sanjuan.model.Class> findClassesContainingName(@Param("name") String name);
+	@Query(value = "SELECT c FROM Class c WHERE c.name LIKE %:Name%")
+	public List<pre.juanp.sanjuan.model.Class> findClassesContainingName(@Param("Name") String name);
+
+	@Query(value = "SELECT c FROM Class c WHERE c.code = :Code")
+	public pre.juanp.sanjuan.model.Class getClassByCode(@Param("Code") String code);
 	
-	@Query(value = "SELECT c FROM Class c WHERE c.family.id = :familyId")
-	public List<pre.juanp.sanjuan.model.Class> getClassesByFamily(@Param("familyId") String familyId);
+	@Query(value = "SELECT c FROM Class c WHERE c.family.id = :FamilyId")
+	public List<pre.juanp.sanjuan.model.Class> getClassesByFamily(@Param("FamilyId") Integer familyId);
 
-	@Query(value = "SELECT c FROM Class c WHERE c.category.id = :categoryId")
-	public List<pre.juanp.sanjuan.model.Class> getClassTagsForCategory(@Param("categoryId") String categoryId);
+	@Query(value = "SELECT c FROM Class c WHERE c.category.id = :CategoryId")
+	public List<pre.juanp.sanjuan.model.Class> getClassTagsForCategory(@Param("CategoryId") Integer categoryId);
 	
 	@Procedure(name = "UpAddClassTagForCategory")
-	public void UpAddClassTagForCategory(@Param("id") String id, @Param("categoryId") String categoryId);
+	public void UpAddClassTagForCategory(@Param("Id") Integer id, @Param("CategoryId") Integer categoryId);
 	
 	@Procedure(name = "UpRemoveClassTagForCategory")
-	public void UpRemoveClassTagForCategory(@Param("id") String id);
+	public void UpRemoveClassTagForCategory(@Param("Id") Integer id);
 }

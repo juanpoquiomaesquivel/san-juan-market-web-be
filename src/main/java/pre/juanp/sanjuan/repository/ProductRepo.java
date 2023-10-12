@@ -10,23 +10,26 @@ import org.springframework.lang.Nullable;
 
 import pre.juanp.sanjuan.model.Product;
 
-public interface ProductRepo extends JpaRepository<Product, String> {
+public interface ProductRepo extends JpaRepository<Product, Integer> {
 	
 	@Query(value = "SELECT p FROM Product p WHERE p.name LIKE %:name%")
 	public List<Product> findProductsContainingName(@Param("name") String name);
 	
 	@Query(value = "SELECT p FROM Product p WHERE p.description LIKE %:description%")
 	public List<Product> findProductsContainingDescription(@Param("description") String description);
+
+	@Query(value = "SELECT p FROM Product p WHERE p.code = :Code")
+	public Product getProductByCode(@Param("Code") String code);
 	
-	@Query(value = "SELECT p FROM Product p WHERE p.category.id = :categoryId")
-	public List<Product> getProductsByCategory(@Param("categoryId") String categoryId);
+	@Query(value = "SELECT p FROM Product p WHERE p.category.id = :CategoryId")
+	public List<Product> getProductsByCategory(@Param("CategoryId") Integer categoryId);
 	
-	@Procedure(value = "UpInsertProduct")
-	public void UpInsertProduct(@Param("name") String name, @Nullable @Param("description") String description, @Nullable @Param("categoryId") String categoryId);
+	@Procedure(value = "UpAddProduct")
+	public void UpAddProduct(@Param("Name") String name, @Nullable @Param("Description") String description, @Nullable @Param("CategoryId") Integer categoryId);
 	
 	@Procedure(value = "UpUpdateProduct")
-	public void UpUpdateProduct(@Param("id") String id, @Param("name") String name, @Nullable @Param("description") String description, @Nullable @Param("categoryId") String categoryId);
+	public void UpUpdateProduct(@Param("Id") Integer id, @Param("Name") String name, @Nullable @Param("Description") String description, @Nullable @Param("CategoryId") Integer categoryId);
 	
-	@Procedure(value = "UpDeleteProduct")
-	public void UpDeleteProduct(@Param("id") String id);
+	@Procedure(value = "UpRemoveProduct")
+	public void UpRemoveProduct(@Param("Id") Integer id);
 }

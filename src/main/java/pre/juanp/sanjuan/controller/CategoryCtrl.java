@@ -39,7 +39,7 @@ public class CategoryCtrl {
 	}
 
 	@GetMapping("/get/byname")
-	public ResponseEntity<List<Category>> findCategoriesContainingName(@RequestParam("name") String name)
+	public ResponseEntity<List<Category>> findCategoriesContainingName(@RequestParam("Name") String name)
 			throws Exception {
 		Optional<List<Category>> cats = Optional.ofNullable(serv.findCategoriesContainingName(name));
 
@@ -52,7 +52,7 @@ public class CategoryCtrl {
 
 	@GetMapping("/get/bydescription")
 	public ResponseEntity<List<Category>> findCategoriesContainingDescription(
-			@RequestParam("description") String description) throws Exception {
+			@RequestParam("Description") String description) throws Exception {
 		Optional<List<Category>> cats = Optional.ofNullable(serv.findCategoriesContainingDescription(description));
 
 		if (cats.isEmpty()) {
@@ -62,22 +62,22 @@ public class CategoryCtrl {
 		return ResponseEntity.ok(cats.get());
 	}
 
-	@GetMapping("/get/byid/{id}")
-	public ResponseEntity<Category> getCategoryById(@PathVariable("id") String id) throws Exception {
-		Optional<Category> cats = Optional.ofNullable(serv.getCategoryById(id));
+	@GetMapping("/get/bycode/{Code}")
+	public ResponseEntity<Category> getCategoryByCode(@PathVariable("Code") String code) throws Exception {
+		Optional<Category> cats = Optional.ofNullable(serv.getCategoryByCode(code));
 
 		if (cats.isEmpty()) {
-			throw new Exception("There is no category associated with the provided id.");
+			throw new Exception("There is no category associated with the provided code.");
 		}
 
 		return ResponseEntity.ok(cats.get());
 	}
 
 	@PostMapping("/post/newcategory")
-	public ResponseEntity<String> saveNewCategory(@RequestParam("name") String name,
-			@RequestParam(name = "description", required = false) String description) {
+	public ResponseEntity<String> addCategory(@RequestParam("Name") String name,
+			@RequestParam(name = "Description", required = false) String description) {
 		try {
-			serv.saveNewCategory(name, description);
+			serv.addCategory(name, description);
 
 			return ResponseEntity.ok("[New Category] Insert statement executed successfully.");
 		} catch (Exception e) {
@@ -87,8 +87,8 @@ public class CategoryCtrl {
 	}
 
 	@PutMapping("/put/byid")
-	public ResponseEntity<String> updateCategoryById(@RequestParam("id") String id, @RequestParam("name") String name,
-			@RequestParam(name = "description", required = false) String description) {
+	public ResponseEntity<String> updateCategoryById(@RequestParam("Id") Integer id, @RequestParam("Name") String name,
+			@RequestParam(name = "Description", required = false) String description) {
 		try {
 			serv.updateCategoryById(id, name, description);
 
@@ -100,9 +100,9 @@ public class CategoryCtrl {
 	}
 
 	@DeleteMapping("/delete/byid/{id}")
-	public ResponseEntity<String> deleteCategoryById(@PathVariable("id") String id) {
+	public ResponseEntity<String> deleteCategoryById(@PathVariable("Id") Integer id) {
 		try {
-			serv.deleteCategoryById(id);
+			serv.removeCategoryById(id);
 
 			return ResponseEntity.ok("[Drop Category] Delete statement executed successfully.");
 		} catch (Exception e) {

@@ -22,11 +22,11 @@ public class FamilyServ {
 		return repo.findFamiliesContainingName(name);
 	}
 
-	public Family getFamilyById(String id) {
-		return repo.getReferenceById(id);
+	public Family getFamilyByCode(String code) {
+		return repo.getFamilyByCode(code);
 	}
 
-	public List<Family> getFamiliesBySegment(String segmentId) {
+	public List<Family> getFamiliesBySegment(Integer segmentId) {
 		return repo.getFamiliesBySegment(segmentId);
 	}
 }

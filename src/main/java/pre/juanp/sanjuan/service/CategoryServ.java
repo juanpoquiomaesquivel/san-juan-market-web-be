@@ -26,19 +26,19 @@ public class CategoryServ {
 		return repo.findCategoriesContainingDescription(description);
 	}
 
-	public Category getCategoryById(String id) {
-		return repo.getReferenceById(id);
+	public Category getCategoryByCode(String code) {
+		return repo.getCategoryByCode(code);
 	}
 
-	public void saveNewCategory(String name, String description) {
-		repo.UpInsertCategory(name, description);
+	public void addCategory(String name, String description) {
+		repo.UpAddCategory(name, description);
 	}
 
-	public void updateCategoryById(String id, String name, String description) {
+	public void updateCategoryById(Integer id, String name, String description) {
 		repo.UpUpdateCategory(id, name, description);
 	}
 
-	public void deleteCategoryById(String id) {
-		repo.UpDeleteCategory(id);
+	public void removeCategoryById(Integer id) {
+		repo.UpRemoveCategory(id);
 	}
 }
