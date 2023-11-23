@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pre.juanp.sanjuan.model.Family;
+import pre.juanp.sanjuan.model.dto.administrator.FamilyOptionGroupDTO;
 import pre.juanp.sanjuan.repository.FamilyRepo;
 
 @Service
@@ -28,5 +29,9 @@ public class FamilyServ {
 
 	public List<Family> getFamiliesBySegment(Integer segmentId) {
 		return repo.getFamiliesBySegment(segmentId);
+	}
+	
+	public List<FamilyOptionGroupDTO> getFamilyOptionGroupList() {
+		return repo.UpGetFamilyOptionGroupList();
 	}
 }

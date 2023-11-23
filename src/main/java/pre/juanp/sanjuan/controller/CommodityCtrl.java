@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pre.juanp.sanjuan.model.Commodity;
+import pre.juanp.sanjuan.model.dto.Message;
+import pre.juanp.sanjuan.model.dto.administrator.CommodityOptionDTO;
 import pre.juanp.sanjuan.service.CommodityServ;
 
 @RestController
@@ -72,9 +75,9 @@ public class CommodityCtrl {
 	}
 
 	@GetMapping("/get/forproduct/{ProductId}")
-	public ResponseEntity<List<Commodity>> getCommodityTagsForProduct(@PathVariable("ProductId") Integer productId)
+	public ResponseEntity<List<Integer>> getCommodityTagsForProduct(@PathVariable("ProductId") Integer productId)
 			throws Exception {
-		Optional<List<Commodity>> coms = Optional.ofNullable(serv.getCommodityTagsForProduct(productId));
+		Optional<List<Integer>> coms = Optional.ofNullable(serv.getCommodityTagsForProduct(productId));
 
 		if (coms.isEmpty()) {
 			throw new Exception("There is no commodity associated with the provided product.");
@@ -83,28 +86,44 @@ public class CommodityCtrl {
 		return ResponseEntity.ok(coms.get());
 	}
 
-	@PutMapping("/put/commoditytag/add")
-	public ResponseEntity<String> addCommodityTagForProduct(@RequestParam("Id") Integer id,
-			@RequestParam("ProductId") Integer productId) {
-		try {
-			serv.addCommodityTagForProduct(id, productId);
+	@PutMapping("/put/commoditytag/forproduct/{ProductId}/add")
+	public ResponseEntity<Message> addCommodityTagForProduct(@PathVariable("ProductId") Integer productId,
+			@RequestBody String commodityIdArray) {
+		serv.addCommodityTagForProduct(productId, commodityIdArray);
 
-			return ResponseEntity.ok("[Commodity Tag For Product Added] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
-		}
+		return ResponseEntity.ok(new Message(101, "Tags de producto agregado."));
 	}
 
 	@PutMapping("/put/commoditytag/remove")
-	public ResponseEntity<String> removeCommodityTagForProduct(@RequestParam("Id") Integer id) {
-		try {
-			serv.removeCommodityTagForProduct(id);
+	public ResponseEntity<Message> removeCommodityTagForProduct(@RequestBody String commodityIdArray) {
+		serv.removeCommodityTagForProduct(commodityIdArray);
 
-			return ResponseEntity.ok("[Commodity Tag For Product Removed] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
+		return ResponseEntity.ok(new Message(101, "Tags de producto eliminado."));
+	}
+
+	@GetMapping("/get/commodityoption/forclasses/available/all")
+	public ResponseEntity<List<CommodityOptionDTO>> getAvailableCommodityOptionList(
+			@RequestParam("ClassIdArray") String classIdArray) throws Exception {
+		Optional<List<CommodityOptionDTO>> list = Optional
+				.ofNullable(serv.getAvailableCommodityOptionList(classIdArray));
+
+		if (list.isEmpty()) {
+			throw new Exception("getAvailableCommodityOptionList");
 		}
+
+		return ResponseEntity.ok(list.get());
+	}
+
+	@GetMapping("/get/commodityoption/forproduct/{ProductId}/all")
+	public ResponseEntity<List<CommodityOptionDTO>> getCurrentCommodityTagOptionsForProduct(
+			@PathVariable("ProductId") Integer pproductId) throws Exception {
+		Optional<List<CommodityOptionDTO>> list = Optional
+				.ofNullable(serv.getCurrentCommodityTagOptionsForProduct(pproductId));
+
+		if (list.isEmpty()) {
+			throw new Exception("getCurrentCommodityTagOptionsForProduct");
+		}
+
+		return ResponseEntity.ok(list.get());
 	}
 }

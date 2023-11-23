@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pre.juanp.sanjuan.model.dto.Message;
+import pre.juanp.sanjuan.model.dto.administrator.ClassOptionDTO;
+import pre.juanp.sanjuan.model.dto.administrator.ClassOptionGroupDTO;
 import pre.juanp.sanjuan.service.ClassServ;
 
 @RestController
@@ -48,7 +51,8 @@ public class ClassCtrl {
 	}
 
 	@GetMapping("/get/bycode/{Code}")
-	public ResponseEntity<pre.juanp.sanjuan.model.Class> getClassByCode(@PathVariable("Code") String code) throws Exception {
+	public ResponseEntity<pre.juanp.sanjuan.model.Class> getClassByCode(@PathVariable("Code") String code)
+			throws Exception {
 		Optional<pre.juanp.sanjuan.model.Class> nclass = Optional.ofNullable(serv.getClassByCode(code));
 
 		if (nclass.isEmpty()) {
@@ -71,10 +75,9 @@ public class ClassCtrl {
 	}
 
 	@GetMapping("/get/forcategory/{CategoryId}")
-	public ResponseEntity<List<pre.juanp.sanjuan.model.Class>> getClassTagsForCategory(
-			@PathVariable("CategoryId") Integer categoryId) throws Exception {
-		Optional<List<pre.juanp.sanjuan.model.Class>> clasz = Optional
-				.ofNullable(serv.getClassTagsForCategory(categoryId));
+	public ResponseEntity<List<Integer>> getClassTagsForCategory(@PathVariable("CategoryId") Integer categoryId)
+			throws Exception {
+		Optional<List<Integer>> clasz = Optional.ofNullable(serv.getClassTagsForCategory(categoryId));
 
 		if (clasz.isEmpty()) {
 			throw new Exception("There is no class associated with the provided category.");
@@ -83,28 +86,54 @@ public class ClassCtrl {
 		return ResponseEntity.ok(clasz.get());
 	}
 
-	@PutMapping("/put/classtag/add")
-	public ResponseEntity<String> addClassTagForCategory(@RequestParam("Id") Integer id,
-			@RequestParam("CategoryId") Integer categoryId) {
-		try {
-			serv.addClassTagForCategory(id, categoryId);
+	@GetMapping("/get/classoption/forcategory/{CategoryId}")
+	public ResponseEntity<List<ClassOptionDTO>> getCurrentClassTagOptionsForCategory(
+			@PathVariable("CategoryId") Integer categoryId) throws Exception {
+		Optional<List<ClassOptionDTO>> clasz = Optional
+				.ofNullable(serv.getCurrentClassTagOptionsForCategory(categoryId));
 
-			return ResponseEntity.ok("[Class Tag For Category Added] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
+		if (clasz.isEmpty()) {
+			throw new Exception("There is no class associated with the provided category.");
 		}
+
+		return ResponseEntity.ok(clasz.get());
+	}
+
+	@GetMapping("/get/classoption/available/all")
+	public ResponseEntity<List<ClassOptionDTO>> getAvailableClassOptionList() throws Exception {
+		Optional<List<ClassOptionDTO>> clasz = Optional.ofNullable(serv.getAvailableClassOptionList());
+
+		if (clasz.isEmpty()) {
+			throw new Exception("There is no class associated with the provided category.");
+		}
+
+		return ResponseEntity.ok(clasz.get());
+	}
+
+	@PutMapping("/put/classtag/forcategory/{CategoryId}/add")
+	public ResponseEntity<Message> addClassTagForCategory(@PathVariable("CategoryId") Integer categoryId,
+			@RequestBody String jsonArrayId) {
+		serv.addClassTagForCategory(jsonArrayId, categoryId);
+
+		return ResponseEntity.ok(new Message(101, "Los tags han sido anadidos."));
 	}
 
 	@PutMapping("/put/classtag/remove")
-	public ResponseEntity<String> removeClassTagForCategory(@RequestParam("Id") Integer id) {
-		try {
-			serv.removeClassTagForCategory(id);
+	public ResponseEntity<Message> removeClassTagForCategory(@RequestBody String jsonArrayId) {
+		serv.removeClassTagForCategory(jsonArrayId);
 
-			return ResponseEntity.ok("[Class Tag For Category Removed] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
+		return ResponseEntity.ok(new Message(101, "Los tags han sido removidos."));
+	}
+
+	@GetMapping("/get/classoptiongroup/forcategory/{CategoryId}/all")
+	public ResponseEntity<List<ClassOptionGroupDTO>> getClassOptionGroupDTO(
+			@PathVariable("CategoryId") Integer categoryId) throws Exception {
+		Optional<List<ClassOptionGroupDTO>> list = Optional.ofNullable(serv.getClassOptionGroupList(categoryId));
+
+		if (list.isEmpty()) {
+			throw new Exception("getClassOptionGroupDTO");
 		}
+
+		return ResponseEntity.ok(list.get());
 	}
 }

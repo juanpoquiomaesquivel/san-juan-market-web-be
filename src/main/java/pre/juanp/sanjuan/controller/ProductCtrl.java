@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pre.juanp.sanjuan.model.Product;
+import pre.juanp.sanjuan.model.dto.Message;
+import pre.juanp.sanjuan.model.dto.ProductFilterDTO;
+import pre.juanp.sanjuan.model.dto.administrator.ProductOptionDTO;
 import pre.juanp.sanjuan.service.ProductServ;
 
 @RestController
@@ -86,42 +88,52 @@ public class ProductCtrl {
 	}
 
 	@PostMapping("/post/newproduct")
-	public ResponseEntity<String> addProduct(@RequestParam("Name") String name,
+	public ResponseEntity<Integer> addProduct(@RequestParam("Name") String name,
 			@RequestParam(name = "Description", required = false) String description,
 			@RequestParam(name = "CategoryId", required = false) Integer categoryId) {
-		try {
-			serv.addProduct(name, description, categoryId);
+		serv.addProduct(name, description, categoryId);
 
-			return ResponseEntity.ok("[New Product] Insert statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
-		}
+		return ResponseEntity.ok(serv.getLastAddedProductId());
 	}
 
-	@PutMapping("/put/byid")
-	public ResponseEntity<String> updateProductById(@RequestParam("Id") Integer id, @RequestParam("Name") String name,
-			@RequestParam(name = "Description", required = false) String description,
+	@PutMapping("/put/byid/{ProductId}")
+	public ResponseEntity<Message> updateProductById(@PathVariable("ProductId") Integer id,
+			@RequestParam("Name") String name, @RequestParam(name = "Description", required = false) String description,
 			@RequestParam(name = "CategoryId", required = false) Integer categoryId) {
-		try {
-			serv.updateProductById(id, name, description, categoryId);
+		serv.updateProductById(id, name, description, categoryId);
 
-			return ResponseEntity.ok("[Product Changes] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
-		}
+		return ResponseEntity.ok(new Message(102, "Producto actuaizado."));
 	}
 
-	@DeleteMapping("/delete/byid/{id}")
-	public ResponseEntity<String> removeProductById(@PathVariable("id") Integer id) {
-		try {
-			serv.removeProductById(id);
+	@DeleteMapping("/delete/byid/{ProductId}")
+	public ResponseEntity<Message> removeProductById(@PathVariable("ProductId") Integer productId) {
+		serv.removeProductById(productId);
 
-			return ResponseEntity.ok("[Drop Product] Delete statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
+		return ResponseEntity.ok(new Message(103, "Producto eliminado."));
+	}
+
+	// dto
+
+	@GetMapping("/filters/get/all")
+	public ResponseEntity<List<ProductFilterDTO>> findAllProductFilters() throws Exception {
+		Optional<List<ProductFilterDTO>> pros = Optional.ofNullable(serv.findAllProductFilters(1));
+
+		if (pros.isEmpty()) {
+			throw new Exception("There is no products.");
 		}
+
+		return ResponseEntity.ok(pros.get());
+	}
+
+
+	@GetMapping("/get/productoption/all")
+	public ResponseEntity<List<ProductOptionDTO>> getProductOptionList() throws Exception {
+		Optional<List<ProductOptionDTO>> pros = Optional.ofNullable(serv.getProductOptionList());
+
+		if (pros.isEmpty()) {
+			throw new Exception("getProductOptionList");
+		}
+
+		return ResponseEntity.ok(pros.get());
 	}
 }

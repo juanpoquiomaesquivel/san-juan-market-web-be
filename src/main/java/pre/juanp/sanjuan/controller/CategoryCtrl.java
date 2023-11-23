@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pre.juanp.sanjuan.model.Category;
+import pre.juanp.sanjuan.model.dto.CategoryFilterDTO;
+import pre.juanp.sanjuan.model.dto.Message;
+import pre.juanp.sanjuan.model.dto.administrator.CategoryOptionDTO;
 import pre.juanp.sanjuan.service.CategoryServ;
 
 @RestController
@@ -74,40 +76,50 @@ public class CategoryCtrl {
 	}
 
 	@PostMapping("/post/newcategory")
-	public ResponseEntity<String> addCategory(@RequestParam("Name") String name,
+	public ResponseEntity<Integer> addCategory(@RequestParam("Name") String name,
 			@RequestParam(name = "Description", required = false) String description) {
-		try {
-			serv.addCategory(name, description);
+		serv.addCategory(name, description);
 
-			return ResponseEntity.ok("[New Category] Insert statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
-		}
+		return ResponseEntity.ok(serv.getLastAddedCategoryId());
 	}
 
-	@PutMapping("/put/byid")
-	public ResponseEntity<String> updateCategoryById(@RequestParam("Id") Integer id, @RequestParam("Name") String name,
+	@PutMapping("/put/byid/{CategoryId}")
+	public ResponseEntity<Message> updateCategoryById(@PathVariable("CategoryId") Integer categoryId,
+			@RequestParam("Name") String name,
 			@RequestParam(name = "Description", required = false) String description) {
-		try {
-			serv.updateCategoryById(id, name, description);
+		serv.updateCategoryById(categoryId, name, description);
 
-			return ResponseEntity.ok("[Category Changes] Update statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
-		}
+		return ResponseEntity.ok(new Message(102, "La categoria ha sido actualizada."));
 	}
 
-	@DeleteMapping("/delete/byid/{id}")
-	public ResponseEntity<String> deleteCategoryById(@PathVariable("Id") Integer id) {
-		try {
-			serv.removeCategoryById(id);
+	@DeleteMapping("/delete/byid/{CategoryId}")
+	public ResponseEntity<Message> deleteCategoryById(@PathVariable("CategoryId") Integer categoryId) {
+		serv.removeCategoryById(categoryId);
 
-			return ResponseEntity.ok("[Drop Category] Delete statement executed successfully.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error executing stored procedure: " + e.getMessage());
+		return ResponseEntity.ok(new Message(103, "La categoria ha sido eliminada."));
+	}
+
+	// dto
+
+	@GetMapping("/filters/get/all")
+	public ResponseEntity<List<CategoryFilterDTO>> findAllCategoryFilters() throws Exception {
+		Optional<List<CategoryFilterDTO>> cats = Optional.ofNullable(serv.findAllCategoryFilters(1));
+
+		if (cats.isEmpty()) {
+			throw new Exception("There is no category filters.");
 		}
+
+		return ResponseEntity.ok(cats.get());
+	}
+
+	@GetMapping("/get/categoryoption/all") // ok
+	public ResponseEntity<List<CategoryOptionDTO>> getCategoryOptionList() throws Exception {
+		Optional<List<CategoryOptionDTO>> list = Optional.ofNullable(serv.getCategoryOptionList());
+
+		if (list.isEmpty()) {
+			throw new Exception("There is no category filters.");
+		}
+
+		return ResponseEntity.ok(list.get());
 	}
 }

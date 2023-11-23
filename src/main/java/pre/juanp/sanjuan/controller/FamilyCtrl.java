@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pre.juanp.sanjuan.model.Family;
+import pre.juanp.sanjuan.model.dto.administrator.FamilyOptionGroupDTO;
 import pre.juanp.sanjuan.service.FamilyServ;
 
 @RestController
@@ -61,6 +62,18 @@ public class FamilyCtrl {
 	public ResponseEntity<List<Family>> getFamiliesBySegment(@PathVariable("SegmentId") Integer segmentId)
 			throws Exception {
 		Optional<List<Family>> fams = Optional.ofNullable(serv.getFamiliesBySegment(segmentId));
+
+		if (fams.isEmpty()) {
+			throw new Exception("There is no family associated with the provided segment.");
+		}
+
+		return ResponseEntity.ok(fams.get());
+	}
+
+	@GetMapping("/get/familyoptiongroup")
+	public ResponseEntity<List<FamilyOptionGroupDTO>> getFamilyOptionGroupList()
+			throws Exception {
+		Optional<List<FamilyOptionGroupDTO>> fams = Optional.ofNullable(serv.getFamilyOptionGroupList());
 
 		if (fams.isEmpty()) {
 			throw new Exception("There is no family associated with the provided segment.");

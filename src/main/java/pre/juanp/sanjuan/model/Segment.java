@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "segment")
+@Table(name = "Segment")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,12 +24,12 @@ public class Segment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "Id")
 	private Integer id;
 
-	@Column(name = "code")
+	@Column(name = "Code")
 	private String code;
 	
-	@Column(name = "name")
+	@Column(name = "Name")
 	private String name;
 }

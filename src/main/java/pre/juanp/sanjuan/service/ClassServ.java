@@ -3,8 +3,11 @@ package pre.juanp.sanjuan.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import pre.juanp.sanjuan.model.dto.administrator.ClassOptionDTO;
+import pre.juanp.sanjuan.model.dto.administrator.ClassOptionGroupDTO;
 import pre.juanp.sanjuan.repository.ClassRepo;
 
 @Service
@@ -29,15 +32,29 @@ public class ClassServ {
 		return repo.getClassesByFamily(familyId);
 	}
 	
-	public List<pre.juanp.sanjuan.model.Class> getClassTagsForCategory(Integer categoryId) {
+	public List<Integer> getClassTagsForCategory(Integer categoryId) {
 		return repo.getClassTagsForCategory(categoryId);
 	}
 	
-	public void addClassTagForCategory(Integer id, Integer categoryId) {
-		repo.UpAddClassTagForCategory(id, categoryId);
+	public List<ClassOptionDTO> getCurrentClassTagOptionsForCategory(Integer categoryId) {
+		return repo.getCurrentClassTagOptionsForCategory(categoryId);
 	}
 	
-	public void removeClassTagForCategory(Integer id) {
-		repo.UpRemoveClassTagForCategory(id);
+	public List<ClassOptionDTO> getAvailableClassOptionList() {
+		return repo.UpGetAvailableClassOptionList();
+	}
+	
+	public void addClassTagForCategory(String jsonArrayId, Integer categoryId) {
+		repo.UpAddClassTagForCategory(jsonArrayId, categoryId);
+	}
+	
+	public void removeClassTagForCategory(String jsonArrayId) {
+		repo.UpRemoveClassTagForCategory(jsonArrayId);
+	}
+	
+	
+	
+	public List<ClassOptionGroupDTO> getClassOptionGroupList(Integer categoryId) {
+		return repo.getClassOptionGroupList(categoryId);
 	}
 }

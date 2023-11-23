@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import pre.juanp.sanjuan.model.Family;
+import pre.juanp.sanjuan.model.dto.administrator.FamilyOptionGroupDTO;
 
 public interface FamilyRepo extends JpaRepository<Family, Integer> {
 
@@ -16,6 +17,9 @@ public interface FamilyRepo extends JpaRepository<Family, Integer> {
 	@Query(value = "SELECT f FROM Family f WHERE f.code = :Code")
 	public Family getFamilyByCode(@Param("Code") String code);
 
-	@Query(value = "SELECT f FROM Family f WHERE f.segment.id = :SegmentId")
+	@Query(value = "SELECT f FROM Family f WHERE f.segmentId = :SegmentId")
 	public List<Family> getFamiliesBySegment(@Param("SegmentId") Integer segmentId);
+	
+	@Query(nativeQuery = true)
+	public List<FamilyOptionGroupDTO> UpGetFamilyOptionGroupList();
 }
